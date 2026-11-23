@@ -1,0 +1,66 @@
+{
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Write|Edit|Update|MultiEdit|Bash|mcp__.*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PLUGIN_ROOT}/bin/pretooluse-hook $WEILLIPTIC_ACCOUNT_FILE"
+                    }
+                ]
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "Write|Edit|Update|MultiEdit|Bash|mcp__.*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PLUGIN_ROOT}/bin/audit-hook $WEILLIPTIC_ACCOUNT_FILE 2>>/tmp/audit-hook.log"
+                    }
+                ]
+            }
+        ],
+        "SessionStart": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PLUGIN_ROOT}/bin/session-start-hook $WEILLIPTIC_ACCOUNT_FILE ${CLAUDE_PLUGIN_ROOT}/bin/git-commit-hook"
+                    }
+                ]
+            }
+        ],
+        "SessionEnd": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PLUGIN_ROOT}/bin/session-end-hook $WEILLIPTIC_ACCOUNT_FILE"
+                    }
+                ]
+            }
+        ],
+        "UserPromptSubmit": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PLUGIN_ROOT}/bin/user-prompt-submit-hook"
+                    }
+                ]
+            }
+        ],
+        "Stop": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PLUGIN_ROOT}/bin/stop-hook $WEILLIPTIC_ACCOUNT_FILE 2>>/tmp/stop-hook.log"
+                    }
+                ]
+            }
+        ]
+    }
+}
